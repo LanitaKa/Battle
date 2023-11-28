@@ -4,6 +4,7 @@ public class Battle {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+
         Hero john = new Hero("John" , 100 , 23 ,new String[] {"lightning" , "fireball"});
         Hero jim = new Hero("Jim" , 103 , 22 ,new String[] {"Slash" , "Thunderball"});
 

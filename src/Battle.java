@@ -1,44 +1,68 @@
 import java.util.Scanner;
+import java.util.Random;
 
 public class Battle {
+    private static Hero heroOne;
+    private static Hero heroTwo;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-
-        Hero john = new Hero("John" , 100 , 23 ,new String[] {"lightning" , "fireball"});
-        Hero jim = new Hero("Jim" , 103 , 22 ,new String[] {"Slash" , "Thunderball"});
-
-        String johnsName = john.getName();
-        String jimsName = jim.getName();
-
         System.out.println("Now , then heroes here we might start the battle !");
-        System.out.println(johnsName);
-        System.out.println(jimsName);
 
-        while(john.getHP() > 0 && jim.getHP() > 0) {
-            String johnsSkill = john.getRandomSkill();
-            int johnsDamage = john.getDamage();
+        System.out.println("What's the name of hero number one?");
+        String nameHeroOne = scanner.next();
 
-            System.out.println("Here is our first character : " + johnsName + " he used to apply his " + johnsSkill + " to damage " + johnsDamage + " points");
+        System.out.println("What's the name of hero number two?");
+        String nameHeroTwo = scanner.next();
 
-            String jimSkill = jim.getRandomSkill();
-            int jimDamage = jim.getDamage();
+        System.out.println("Hero 1 is " + nameHeroOne);
+        System.out.println("Hero 2 is " + nameHeroTwo);
 
-            System.out.println("Here is our first character : " + jimsName + " he used to apply his " + jimSkill + " to damage " + jimDamage + " points");
+        Random random = new Random();
+        int DMGHeroOne = random.nextInt(6) + 10;
 
-            int newJohnsHpValue =  john.getHP() - jimDamage;
-            int newJimsHpValue = jim.getHP() - johnsDamage;
-            jim.setHP(newJimsHpValue);
-            john.setHP(newJohnsHpValue);
+        heroOne = new Hero(nameHeroOne, 100, DMGHeroOne);
 
-            System.out.println("There is a new value of John hp : " + newJohnsHpValue + ". Jim damaged by his " + johnsSkill);
-            System.out.println("There is a new value of Jims hp : " + newJimsHpValue + ". Jim damaged by his " + jimSkill);
+        System.out.println("The HP for player 1 is: " + heroOne.getHP());
+        System.out.println("The damage for player 1 is: " + heroOne.getDamage());
+        System.out.println("Select your opponent's level:\n" +
+                "1 - light, 2 - medium, 3 - high");
+        int lvl = scanner.nextInt();
 
-            if(john.getHP() <= 0) {
-                System.out.println(jimsName + " has won the battle!");
-            }else if (jim.getHP() <= 0) {
-                System.out.println(johnsName + " has won the battle!");
-            }
+        heroTwo = new Hero(nameHeroTwo, lvl);
+
+        System.out.println("The HP for player 2 is: " + heroTwo.getHP());
+        System.out.println("The damage for player 2 is: " + heroTwo.getDamage());
+        battleStart();
+
+    }
+
+    private static void battleStart() {
+        while(heroOne.getHP() > 0 && heroTwo.getHP() > 0) {
+            battleProcess();
         }
+        if(heroOne.getHP() <= 0) {
+                System.out.println(heroTwo.getName() + " has won the battle!");
+            }else if (heroTwo.getHP() <= 0) {
+                System.out.println(heroOne.getName() + " has won the battle!");
+            }
+
+    }
+
+    private static void battleProcess() {
+        heroOne.setRandomSkill();
+        heroTwo.setRandomSkill();
+
+        System.out.println("Here is our first hero: " + heroOne.getName() + " he used to apply his " + heroOne.getSkill() + " to damage " + heroOne.getDamage() + " points");
+        System.out.println("Here is our first hero: " + heroTwo.getName() + " he used to apply his " + heroTwo.getSkill() + " to damage " + heroTwo.getDamage() + " points");
+
+        int newHeroOneHpValue =  heroOne.getHP() - heroTwo.getDamage();
+        int newHeroTwoHpValue =  heroTwo.getHP() - heroOne.getDamage();
+
+        heroOne.setHP(newHeroOneHpValue);
+        heroTwo.setHP(newHeroTwoHpValue);
+
+        System.out.println("There is a new value of " + heroOne.getName() + " hp : " + heroOne.getHP() +  ". " + heroTwo.getName() + " damaged by his " + heroTwo.getSkill());
+        System.out.println("There is a new value of " + heroTwo.getName() + " hp : " + heroTwo.getHP() +  ". " + heroOne.getName() + " damaged by his " + heroOne.getSkill());
     }
 }
+
